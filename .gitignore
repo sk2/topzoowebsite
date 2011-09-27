@@ -1,0 +1,5 @@
+maps/*
+*.svn
+files/*
+*.swp
+.DS_Store

@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>                      
+		<title>
+			The Internet Topology Zoo
+		</title>
+		<link rel="stylesheet" href="blue/style.css" type="text/css" id="" media="print, projection, screen" />
+		<link href="prettify/prettify.css" type="text/css" rel="stylesheet" />
+		<script type="text/javascript" src="prettify/prettify.js">
+</script>                          
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-351760-4']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</head>
+	<body onload="prettyPrint()">
+		<div id="wrap">
+			<div id="header">
+				<table class="header">
+					<tr>
+						<td>
+							<img src="UoA_col_horz.png" />
+						</td>
+						<td>
+							<h1>
+								The Internet Topology Zoo
+							</h1>
+						</td>
+					</tr>
+				</table>                                 
+			</div>
+			<div id="main">
+				<div id="sidebar">
+					<ul>
+						<li>
+							<a href="index.html">Home</a>
+						</li>
+						<li>
+							<a href="dataset.html">Dataset</a>
+						</li>                    
+						<li>
+							<a href="gallery.html">Gallery</a>
+						</li>
+						<li>
+							<a href="publications.html">Publications</a>
+						</li>
+						<li>
+							<a href="toolset.html">Toolset</a>
+						</li>
+						<li>
+							<a href="documentation.html">Documentation</a>
+						</li>
+						<li>
+							<a href="contribute.html">Contribute</a>
+						</li>
+						<li>
+							<a href="links.html">External Links</a>
+						</li>
+						<li>
+							<a href="contact.html">Contact</a>
+						</li>
+					</ul>
+				</div>
+				<div id="main-content">
+					<h2>
+						Toolset
+					</h2>Our toolset provides a set of Python scripts to convert between graph formats.
+					<p>
+						<br />
+						They can be downloaded from the Python Package Index <a href="http://pypi.python.org/pypi/topzootools">here</a> or installed using the Python easy_install tool:<br />
+						<pre class="prettyprint">easy_install topzootools</pre>
+					</p>
+					<h2>
+						yed2zoo Converter Script
+					</h2>The <code>yed2zoo</code> script takes a network traced in yED, and merges it with metadata in a csv file. It will also strip out yED graphics data, and can lookup geographical co-ordinates for nodes.
+					<p>
+						To convert only tagged networks:
+						<br />                          
+						<pre class="prettyprint">~$yed2zoo -c ~/zoo/networks/classification.csv -d ~/zoo/networks/ --tagged
+							</pre>                                                          
+							or with geocoding:
+							<pre class="prettyprint">~$yed2zoo -d ~/zoo/networks/ --csv ~/zoo/networks/classification.csv --geocode -u eskaytwo
+							INFO   Saving to folder: ~/zoo/networks/zoogml_geocoded      
+							</pre> 
+							
+							With the output:
+							<pre class="prettyprint">$ more ~/zoo/networks/zoogml_geocoded/Aarnet.gml 
+							graph [
+							  DateObtained "2/12/10"
+							  GeoLocation "Australia"
+							  GeoExtent "Country"
+							  Network "AARNET"
+							  Provenance "Primary"
+							  Access 0
+							  Source "http://www.aarnet.edu.au/aarnet3.aspx"
+							  Version "1.0"
+							  DateType "Current"
+							  Type "REN"
+							  Backbone 1
+							  Commercial 0
+							  label "AARNET"
+							  Customer 0
+							  IX 0
+							  LastAccess "3/08/10"
+							  Layer "IP"
+							  Classification "Backbone"
+							  Creator "Topology Zoo Toolset"
+							  Developed 1
+							  Transit 0
+							  NetworkDate "2010-08"
+							  Testbed 0
+							  SvnVersion 8123
+							  node [
+							    id 0
+							    label "Perth1"
+							    Country "Australia"
+							    Longitude 115.83333
+							    Latitude -31.93333
+							  ]
+							  node [
+							    id 1
+							    label "Perth2"
+							    Country "Australia"
+							    Longitude 115.83333
+							    Latitude -31.93333
+							  ]
+							  node [
+							    id 2
+							    label "Adelaide1"
+							    Country "Australia"
+							    Longitude 138.6
+							    Latitude -34.93333   
+							 </pre>
+							
+					</p>
+					<h2>
+						Converter Script
+					</h2>The converter script converts from GML into other formats, including graphml and adjacency matrices. It can reduce multigraphs to single edge graphs, and remove nodes marked as external.
+					An example of using the script to create the GML files used in the Zoo is below<br />
+					<pre class="prettyprint">~$zooconvert -d ~/zoo/networks/yED/zoogml_geocoded/ --html -o ~/zoo/website/files --graphml --gml --archive 
+</pre><br />             
+					<h2>
+						Plotting Script
+					</h2>The zooplot script uses <a href="http://matplotlib.sourceforge.net/basemap/doc/html/index.html">basemap</a> to do geographical plotting.
+						It takes a geocoded GML file (produced using yed2zoo or rocketfuel2zoo).<br />
+					<pre class="prettyprint">~$ zooplot -f Aarnet.gml --png
+						Plotting: Aarnet
+						Plotting to ~/plotted_flat/Aarnet 
+					</pre><br />
+
+					<h2>rocketfuel2zoo Converter Script</h2>
+						Will convert topologies from the <a href="http://www.cs.washington.edu/research/networking/rocketfuel/">Rocketfuel</a> dataset.
+						<pre class="prettyprint">~$ wget http://www.cs.washington.edu/research/networking/rocketfuel/maps/policy-dist.tar.gz</pre>
+						<pre class="prettyprint">~$ tar -xzf policy-dist.tar.gz</pre>
+						<pre class="prettyprint">~$ rocketfuel2zoo -d maps-n-paths/</pre>           
+						Will give output similar to:
+						<pre class="prettyprint">~$ rocketfuel2zoo -d maps-n-paths/
+						INFO   Writing to maps-n-paths/rf2zoo
+						INFO   Processing 9070:9070
+						INFO   Processing 1785:1785
+						INFO   Processing 8220:8220
+						INFO   Processing 101:101
+						INFO   Processing 1668:1668
+						</pre>
+						The output will look like:    
+						<pre class="prettyprint">~$ more maps-n-paths/rf2zoo/101_101.gml 
+						graph [
+						  Creator "rocketfuel2zoo"
+						  node [
+						    id 0
+						    label "Sunnyvale CA"
+						    ASN 101
+						  ]
+						  node [
+						    id 1
+						    label "Seattle WA"
+						    ASN 101
+						  ]
+						  edge [
+						    source 0
+						    target 1
+						    obs_count 2624
+						  ]
+						]
+						</pre>
+						
+						                                    					
+
+				</div>
+			</div>
+		</div>
+		<div id="footer">
+			This project was supported by the Australian Government through an Australian Postgraduate Award and Australian Research Council Discovery Grants DP110103505 and DP0985063; and by the <a href="http://www.adelaide.edu.au">University of Adelaide</a>.
+			<br>
+			Last updated 2011-06-01 by simon.knight at adelaide.edu.au </a>.
+		</div>
+	</body>
+</html>

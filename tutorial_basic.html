@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>                      
+		<title>
+			The Internet Topology Zoo
+		</title>
+		<link rel="stylesheet" href="blue/style.css" type="text/css" id="" media="print, projection, screen" />   
+		
+		<link href="prettify/prettify.css" type="text/css" rel="stylesheet" />
+		<script type="text/javascript" src="prettify/prettify.js">
+		</script>
+		
+		          <script type="text/javascript">
+
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-351760-4']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+
+		</script>
+		
+	</head>
+	<body onload="prettyPrint()">
+		<div id="wrap">
+			<div id="header">
+				<table class="header">
+					<tr>
+						<td>
+							<img src="UoA_col_horz.png" />
+						</td>
+						<td>
+							<h1>
+								The Internet Topology Zoo
+							</h1>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div id="main">
+				<div id="sidebar">
+					<ul>
+						<li>
+							<a href="index.html">Home</a>
+						</li>
+						<li>
+							<a href="dataset.html">Dataset</a>
+						</li>                
+						<li>
+							<a href="gallery.html">Gallery</a>
+						</li>
+						<li>
+							<a href="publications.html">Publications</a>
+						</li>
+						<li>
+							<a href="toolset.html">Toolset</a>
+						</li>
+						<li>
+							<a href="documentation.html">Documentation</a>
+						</li>
+						<li>
+							<a href="contribute.html">Contribute</a>
+						</li>
+						<li>
+							<a href="links.html">External Links</a>
+						</li>
+						<li>
+							<a href="contact.html">Contact</a>
+						</li>
+					</ul>
+				</div>
+				<div id="main-content">       
+					<h2> Basic Tutorial</h2>  
+					<ol>                  
+					<li>Download and open the <a href="http://www.yworks.com/products/yed/">yEd</a> graph drawing program.</li> 
+					<li><p>Nodes are added to the graph by clicking the mouse on the background.
+						<br><img id="alttext" src="images/1twonodes.png" alt="Alt text" title="" /></p></li>
+					<li><p>The nodes can be named by selecting a node, pressing enter, and then typing in a name. Press enter again to store the name.<br>
+						<img id="alttext" src="images/3nodesnames.png" alt="Alt text" title="" /></p></li>
+					<li><p> Edges can be added between two nodes by clicking the first node, holding down the mouse button, and releasing on the second node. This will draw a line between the nodes. (Do not worry about the arrows on the link, as the converter script will automatically make links bidirectional).
+						<img id="alttext" src="images/2twonodesedge.png" alt="Alt text" title="" /></p></li>
+					<li><p>Labels can also be added to edges in a similar manner to nodes. Select the edge, press enter, type in the label, and then press enter to store the label.
+						<img id="alttext" src="images/4edgesnamed.png" alt="Alt text" title="" /></p></li>
+					<li><p>Save the network in GML format, by
+					File -> Save As, and selecting a File Format of GML Format (*.gml)</p></li>
+					<li><p>The saved GML format network contains yEd graphics metadata, as can be seen below:</p></li>
+					</ol>
+         
+<pre class="prettyprint">
+Creator &#8220;yFiles&#8221;
+Version &#8220;2.8&#8221;
+graph
+[
+        hierarchic      1
+        label   &#8220;&#8221;
+        directed        1
+        node
+        [
+                id      0
+                label   &#8220;Perth&#8221;
+                graphics
+                [
+                        x       400.0
+                        y       354.0
+                        w       30.0
+                        h       30.0
+                        type    &#8220;rectangle&#8221;
+                        fill    &#8220;#FFCC00&#8221;
+                        outline &#8220;#000000&#8221;
+                ]
+                LabelGraphics
+                [
+                        text    &#8220;Perth&#8221;
+                        fontSize        13
+                        fontName        &#8220;Dialog&#8221;
+                        anchor  &#8220;c&#8221;
+                        borderDistance  0.0
+                ]
+        ]
+        node
+        [
+                id      1
+                label   &#8220;Adelaide&#8221;
+                graphics
+                [
+                        x       533.0
+                        y       358.0
+                        w       30.0
+                        h       30.0
+                        type    &#8220;rectangle&#8221;
+                        fill    &#8220;#FFCC00&#8221;
+                        outline &#8220;#000000&#8221;
+                ]
+                LabelGraphics
+                [
+                        text    &#8220;Adelaide&#8221;
+                        fontSize        13
+                        fontName        &#8220;Dialog&#8221;
+                        anchor  &#8220;c&#8221;
+                        borderDistance  0.0
+                ]
+        ]
+      edge
+        [
+                source  0
+                target  1
+                label   &#8220;2.5Gbps&#8221;
+                graphics
+                [
+                        fill    &#8220;#000000&#8221;
+                        targetArrow     &#8220;standard&#8221;
+                ]
+                LabelGraphics
+                [
+                        text    &#8220;2.5Gbps&#8221;
+                        fontSize        12
+                        fontName        &#8220;Dialog&#8221;
+                        model   &#8220;six_pos&#8221;
+                        position        &#8220;tail&#8221;
+                ]
+        ]
+]
+</pre>  
+					</p>
+
+					<p>We can use the convert.py script from the <a href="toolset.html">toolset</a> to produce a GML graph suitable for inclusion in the Zoo. The <em>-f</em> command line option tells the script where to find the source GML file.
+					<pre class="prettyprint">./merge.py -f ~/czoo/examples/tutorial/basic.gml</pre></p>
+
+					<p>This will automatically create a new subdirectory called &#8220;merged&#8221;, and output the merged files into this directory.
+					We now get clean GML
+<pre class="prettyprint">
+graph [
+  Version &#8220;1.0&#8221;
+  Creator &#8220;Topology Zoo Toolset&#8221;
+  label &#8220;basic&#8221;
+  node [
+    id 0
+    label &#8220;Perth&#8221;
+  ]
+  node [
+    id 1
+    label &#8220;Adelaide&#8221;
+  ]
+  edge [
+    source 0
+    target 1
+    LinkSpeed &#8220;2.5&#8221;
+    LinkSpeedUnits &#8220;G&#8221;
+    LinkLabel &#8220;2.5Gbps&#8221;
+  ]
+]
+</pre>      
+					</p>
+
+					<p>This example shows some other features of the convert script. <br>
+						The network label has been set to the name of the file it was read from, nodes have their label set based on the yEd label, link speed has been extracted from the edge label, and the edge has also been made bidirectional.</p>					
+				</div>
+			</div>
+		</div>
+		<div id="footer">
+			This project was supported by the Australian Government through an Australian Postgraduate Award and Australian Research Council Discovery Grants DP110103505 and DP0985063; and by the <a href="http://www.adelaide.edu.au">University of Adelaide</a>.
+			<br>
+			Last updated 2010-12-15 by simon.knight at adelaide.edu.au </a>.
+		</div>
+	</body>
+</html>

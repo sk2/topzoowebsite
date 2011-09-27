@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>       
+		<title>
+			The Internet Topology Zoo
+		</title>
+		<link rel="stylesheet" href="blue/style.css" type="text/css" id="" media="print, projection, screen" />   
+		
+		<link href="prettify/prettify.css" type="text/css" rel="stylesheet" />
+		<script type="text/javascript" src="prettify/prettify.js">     
+		</script>
+		
+		<script type="text/javascript">
+
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-351760-4']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+
+		</script>
+		
+		
+		
+	</head>
+	<body onload="prettyPrint()">
+		<div id="wrap">
+			<div id="header">
+				<table class="header">
+					<tr>
+						<td>
+							<img src="UoA_col_horz.png" />
+						</td>
+						<td>
+							<h1>
+								The Internet Topology Zoo
+							</h1>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div id="main">
+				<div id="sidebar">
+					<ul>
+						<li>
+							<a href="index.html">Home</a>
+						</li>
+						<li>
+							<a href="dataset.html">Dataset</a>
+						</li>     
+						<li>
+							<a href="gallery.html">Gallery</a>
+						</li>
+						<li>
+							<a href="publications.html">Publications</a>
+						</li>
+						<li>
+							<a href="toolset.html">Toolset</a>
+						</li>
+						<li>
+							<a href="documentation.html">Documentation</a>
+						</li>
+						<li>
+							<a href="contribute.html">Contribute</a>
+						</li>
+						<li>
+							<a href="links.html">External Links</a>
+						</li>
+						<li>
+							<a href="contact.html">Contact</a>
+						</li>
+					</ul>
+				</div>
+				<div id="main-content">       
+					<h2> Documentation</h2>  
+					<h3 id="basic">About</h3>     
+					<p>
+					Once we have found a source network image from the web, we trace it using the <a href="http://www.yworks.com/products/yed/">yEd</a> graph drawing program.
+					By adding nodes and edges we can capture the network topology. We also annotate the traced network with node and edge labels.   
+					<br/>
+					If applicable, we can mark different types of nodes (such as external transit providers) using different shapes.
+					Finally, we can categorise nodes (such as core or edge) using colours.
+					The traced network is then saved in the <a href="http://www.infosun.fim.uni-passau.de/Graphlet/GML/gml-tr.html">GML</a> graph exchange format, suitable for processing. 
+					</p>    
+					<br/>
+					<p>    
+					We have written a set of Python <a href="toolset.html">scripts</a> to process the networks traced using yEd. These scripts make extensive use of the <a href="http://networkx.lanl.gov">NetworkX</a> graph library.
+					</p>
+					<br>
+					<p>The <code>merge</code> script processes the yEd GML file, extracting topology and relevant metadata, and discarding graphics information.
+					<br/>It can also merge in metadata provided in an external comma-seperated-value (CSV) file, such as the location of the source image, date of the network, or network type.
+					<br/>The <a href="http://geonames.org">GeoNames</a> web service can be used to look up geographical locations of node names.    
+					<br/>
+					The GML files produced by the merge script are then suitable to be included in the Zoo, and can be found in the <a href="dataset.html">dataset</a>.
+					</p>
+					<br />
+					<p> 
+					The <code>convert</code> script converts GML files from the Zoo into other file formats, including <a href="http://graphml.graphdrawing.org/">GraphML</a> and adjacency matrices suitable for use in Matlab.
+					It is also used to generate the table used on the dataset page.
+					</p> 
+					<br />  
+					<p>
+					The <code>geoplot</code> script uses the geographical information obtained using the merge script to plot network maps. This uses NetworkX and the <a href="http://matplotlib.sourceforge.net/basemap/doc/html/">Basemap</a> Toolkit for <a href="http://matplotlib.sourceforge.net/">matplotlib</a>.
+					<br />
+					An example plot is shown below.
+					<image src="maps/Aarnet
+.jpg">
+					</p>
+					
+					
+				   				</div>
+			</div>
+		</div>
+		<div id="footer">
+			This project was supported by the Australian Government through an Australian Postgraduate Award and Australian Research Council Discovery Grants DP110103505 and DP0985063; and by the <a href="http://www.adelaide.edu.au">University of Adelaide</a>.
+			<br>
+			Last updated 2010-12-15 by simon.knight at adelaide.edu.au </a>.
+		</div>
+	</body>
+</html>
