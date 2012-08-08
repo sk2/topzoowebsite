@@ -1,0 +1,22 @@
+\expandafter\ifx\csname doTocEntry\endcsname\relax \expandafter\endinput\fi 
+\doTocEntry\tocsection{1}{\csname a:TocLink\endcsname{1}{x1-10001}{QQ2-1-1}{Introduction}}{4}\relax 
+\doTocEntry\toclof{1}{\csname a:TocLink\endcsname{1}{x1-10011}{}{\ignorespaces Topology map of the top-level of G\'EANT\cite  {geant_topology_map}. Node types from \cite  {geant_deliverable}. Links from RU (to DE and DK) and IL (to DE and UK) omitted for visual clarity.}}{figure}\relax 
+\doTocEntry\tocsection{2}{\csname a:TocLink\endcsname{1}{x1-20002}{QQ2-1-3}{Data}}{8}\relax 
+\doTocEntry\tocsection{3}{\csname a:TocLink\endcsname{1}{x1-30003}{QQ2-1-4}{European Research Networks}}{9}\relax 
+\doTocEntry\toclot{1}{\csname a:TocLink\endcsname{1}{x1-30011}{}{\ignorespaces Location, ASN and Date of NRENs for Partners and Associates of G\'EANT, and NORDUnet members. Based on \cite  {geant_partners} }}{table}\relax 
+\doTocEntry\tocsection{4}{\csname a:TocLink\endcsname{1}{x1-40004}{QQ2-1-6}{Connecting the Networks}}{14}\relax 
+\doTocEntry\tocsubsection{4.1}{\csname a:TocLink\endcsname{1}{x1-50004.1}{QQ2-1-7}{NREN to G\'EANT Connections}}{14}\relax 
+\doTocEntry\tocsubsection{4.2}{\csname a:TocLink\endcsname{1}{x1-60004.2}{QQ2-1-8}{NREN-NREN Connections}}{20}\relax 
+\doTocEntry\toclot{2}{\csname a:TocLink\endcsname{1}{x1-60022}{}{\ignorespaces External link classification (excluding G\'EANT--NREN links).\vspace  {-7mm}  }}{table}\relax 
+\doTocEntry\toclot{3}{\csname a:TocLink\endcsname{1}{x1-60033}{}{\ignorespaces NREN--NREN and NORDUnet connections.\vspace  {-7mm}  }}{table}\relax 
+\doTocEntry\tocsection{5}{\csname a:TocLink\endcsname{1}{x1-70005}{QQ2-1-11}{Results}}{26}\relax 
+\doTocEntry\toclot{4}{\csname a:TocLink\endcsname{1}{x1-70014}{}{\ignorespaces Network Statistics }}{table}\relax 
+\doTocEntry\toclof{2}{\csname a:TocLink\endcsname{1}{x1-70022}{}{\ignorespaces Connections between networks}}{figure}\relax 
+\doTocEntry\toclof{3}{\csname a:TocLink\endcsname{1}{x1-70033}{}{\ignorespaces Geographic Locations for Continental Europe, showing the G\'EANT and NREN networks and their interconnections.}}{figure}\relax 
+\doTocEntry\tocsection{6}{\csname a:TocLink\endcsname{1}{x1-80006}{QQ2-1-15}{Emulation}}{36}\relax 
+\doTocEntry\tocsubsection{6.1}{\csname a:TocLink\endcsname{1}{x1-90006.1}{QQ2-1-16}{AutoNetkit}}{37}\relax 
+\doTocEntry\tocsubsection{6.2}{\csname a:TocLink\endcsname{1}{x1-100006.2}{QQ2-1-17}{Condensed Network Model}}{41}\relax 
+\doTocEntry\tocsection{7}{\csname a:TocLink\endcsname{1}{x1-110007}{QQ2-1-18}{Conclusion}}{42}\relax 
+\doTocEntry\toclikesection{}{\csname a:TocLink\endcsname{1}{x1-120007}{QQ2-1-19}{Acknowledgement}}{43}\relax 
+\doTocEntry\toclikesection{}{\csname a:TocLink\endcsname{1}{x1-130007}{QQ2-1-20}{References}}{43}\relax 
+\par 
