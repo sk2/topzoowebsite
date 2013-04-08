@@ -136,6 +136,13 @@
 
                 <span class="status_label_span">
 
+                    <h3>About</h3>
+                    This visualisation was created using d3.js. It is currently in beta.
+                    <br>
+                    You can select networks either using the drop-down menu, or by using the left and right arrow keys. You can zoom and pan using your mouse.
+                    <br>
+                    Hover over a node to see more detailed node information.
+
                 <script>
 
                     current_network = [];
@@ -319,7 +326,7 @@
                             }
 
                             var node_radius = 0.9 * Math.log(proj_scale);
-                            var link_width = 25 * 1/Math.log(proj_scale);
+                            var link_width = 15 * 1/Math.log(proj_scale);
 
                             link_data = _.map(network.links, function(link) {
                                 source = network.nodes[link.source];
@@ -419,8 +426,14 @@
                     }
 
                     var node_info = function(d) {
-                        text = d.label;
-                        status_label.html(text);
+                    text = "<b>" + d.label + "</b>";
+                    for (attr in d) {
+                    //TODO use list membership test here instead
+                    if (attr != "label" && attr != "Latitude" & attr != "id" & attr != "Longitude"){
+                        text += ", " + attr + ": " + d[attr] + ""; 
+                    }
+                    }
+                    status_label.html(text);
                     }
 
                     var link_info = function(d) {
@@ -479,7 +492,7 @@
                         interface_labels = g.selectAll(".interface_label")
                         .attr("font-size", font_size) 
 
-                        var link_width = Math.min(Math.max(2, 4* 1/log_event_scale), 5);
+                        var link_width = Math.min(Math.max(2, 2* 1/log_event_scale), 5);
                         link_arcs = arcs.selectAll("path")
                         .style("stroke-width", link_width)
                         
