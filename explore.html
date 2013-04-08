@@ -1,0 +1,503 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>       
+		<title>
+			The Internet Topology Zoo
+		</title>
+		<link rel="stylesheet" href="blue/style.css" type="text/css" id="" media="print, projection, screen" />   
+		
+		<link href="prettify/prettify.css" type="text/css" rel="stylesheet" />
+		<script type="text/javascript" src="prettify/prettify.js">     
+		</script>
+		
+		<script type="text/javascript">
+
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-351760-4']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+
+		</script>
+		
+
+           <script type="text/javascript" src="underscore-min.js"></script>
+        <script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+        <script type="text/javascript" src="jquery.tipsy.js"></script>
+        <script type="text/javascript" src="URI.js"></script>
+        <style type="text/css"></style></head><body>
+        <script src="d3.v3.min.js"></script>
+        <script src="topojson.v0.min.js"></script>
+		
+          <style>
+
+            .map_vis {
+                background-color: #c6dbef;
+                z-index: 1;
+                font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif;
+            }
+
+            .title {
+            }
+
+            .infobar {
+                height: 100px;
+                z-index: 5;
+            }
+
+            .status_label_span {
+                height: 20px;
+            }
+
+            .land {
+                fill: rgb(156, 155, 122);
+            }
+
+            .boundary {
+                fill: none;
+                stroke: #fff;
+                stroke-width: .5px;
+            }
+
+            .node {
+                fill: rgb(0, 67, 88);
+            }
+
+            .link {
+                stroke: rgb(45, 45, 45);
+            }
+
+        </style>
+
+		
+	</head>
+    <body> 
+		<div id="wrap">
+			<div id="header">
+				<table class="header">
+					<tr>
+						<td>
+							<img src="UoA_col_horz.png" />
+						</td>
+						<td>
+							<h1>
+								The Internet Topology Zoo
+							</h1>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div id="main">
+				<div id="sidebar">
+					<ul>
+						<li>
+							<a href="index.html">Home</a>
+						</li>
+						<li>
+							<a href="dataset.html">Dataset</a>
+						</li>     
+						<li>
+							<a href="gallery.html">Gallery</a>
+						</li>
+						<li>
+							<a href="publications.html">Publications</a>
+						</li>
+						<li>
+							<a href="toolset.html">Toolset</a>
+						</li>
+						<li>
+							<a href="documentation.html">Documentation</a>
+						</li>
+						<li>
+							<a href="contribute.html">Contribute</a>
+						</li>
+						<li>
+							<a href="links.html">External Links</a>
+						</li>
+						<li>
+							<a href="contact.html">Contact</a>
+						</li>
+					</ul>
+				</div>
+				<div id="main-content">       
+					<h2> <span class="network_label_span"></h2>  
+					<h3 id="basic"><span class="status_label_span"></h3>     
+
+                <select id = "network_select"></select>
+                <p>
+
+                <center>
+                    <div class="visualisation"></div>
+                </center>
+
+                <script>
+
+                    current_network = [];
+                    var network_select = d3.select("#network_select")
+                    .attr("title", "Node Label")
+                    .on("change", function() {
+                        render_network(this.value );
+                        current_network = this.value;
+                    })
+
+                    network_choices = [];
+
+                    var network_select_back = function() {
+                        index = network_choices.indexOf(current_network);
+                        if (index == 0) {
+                            return; // first item
+                        }
+                        current_network = network_choices[index - 1];
+                        $("#network_select option[value=" + current_network + "]").attr("selected", "selected")
+                        render_network(current_network);
+                    }
+
+                    var network_select_forward = function() {
+                        index = network_choices.indexOf(current_network);
+                        if (index == network_choices.length -1) {
+                            return; // last item
+                        }
+                        current_network = network_choices[index + 1];
+                        $("#network_select option[value=" + current_network + "]").attr("selected", "selected")
+                        render_network(current_network);
+                    }
+
+                    $(document).keydown(function(e){
+                        switch(e.which) {
+                            case 37: // left
+                            network_select_back();
+                            break;
+
+                            case 38: // up
+                            break;
+
+                            case 39: // right
+                            network_select_forward();
+                            break;
+
+                            case 40: // down
+                            break;
+
+                            default: return; // exit this handler for other keys
+                        }
+                        e.preventDefault();
+                    });
+
+                    d3.json("json_networks.txt", function(error, data) {
+                        $("#network_select").empty();
+                        network_choices = data;
+                        current_network = data[0];
+
+                        var network_select = d3.select("#network_select")
+
+                        network_select
+                        .selectAll("option")
+                        .data(data)
+                        .enter().append("option")
+                        .attr("value", String)
+                        .text(String);
+                    }); 
+
+
+
+                    //get network to load from url
+                    var network_file = (URI.parseQuery(window.location.search).network);
+                    //trim trailing / if added by browser. (This might be able to be done in URI)
+                    if(network_file != null && network_file.charAt( network_file.length-1 ) == "/") {
+                        network_file = network_file.slice(0, -1)
+                    }
+
+                    var status_label = d3.select(".status_label_span").append("text")
+                    .attr("class", "status label")
+                    .attr("y", 15)
+                    .attr("x", 0)
+                    .attr("font-size", "14") 
+                    .text("")
+                    ;
+
+                    var network_label = d3.select(".network_label_span").append("text")
+                    .attr("class", "network label")
+                    .attr("y", 15)
+                    .attr("x", 0)
+                    .attr("font-size", "14") 
+                    .text("")
+                    ;
+
+                    //zooming based on http://www.larsko.org/v/igdp/
+
+                    var width = 800,
+                    height = 500;
+
+                    var projection = d3.geo.mercator()
+                    .scale(1*(width + 1) / 2 / Math.PI)
+                    .translate([width / 2, height / 2])
+                    .precision(.1);
+
+                    //TODO: work out why projection won't update
+                    //projection.center([147.20732, -24.2669]);
+
+                    var path = d3.geo.path()
+                    .projection(projection);
+
+                    var svg = d3.select(".visualisation").append("svg")
+                    .attr("class", "map_vis")
+                    .attr("width", width)
+                    .attr("height", height);
+
+                    var g = svg.append("g");
+
+                    var map = g.append("svg:g")
+                    .attr("id", "map");
+
+                    var arcs = g.append("g")
+                    .attr("id", "arcs");
+
+                    var circle_group = g.append("svg:g")
+                    .attr("id", "circle_group");
+
+                    function graph_property(graph, key) {
+                        return _.find(graph, function(pair){ return pair[0]  == key })[1];
+                    }
+
+
+                    var render_network = function(network_name) {
+
+                        filename = "files/" + network_name + ".json";
+                        d3.json(filename, function(network) {
+                            clear_label();
+
+                            //Search through the list of network attributes: should this be stored as a dict in the json?
+                            network_name = graph_property(network.graph, "Network");
+                            network_date = graph_property(network.graph, "NetworkDate");
+                            network_extent = graph_property(network.graph, "GeoExtent");
+                            network_location = graph_property(network.graph, "GeoLocation");
+                            network_label.html(network_name + " " + network_date + " (" + network_location + ")");
+
+                            filtered_nodes = _.filter(network.nodes, function(node) {
+                                if (node.Longitude != null && node.Latitude != null) {
+                                    return true;
+                                }
+                                return false;
+                            });
+
+                            if (filtered_nodes.length == 0 ) {
+                                link_data = {};
+                            }
+
+                            if (filtered_nodes.length > 0) {
+                                max_lat = _.max(filtered_nodes, function(node) { return node.Latitude}).Latitude;
+                                max_lon = _.max(filtered_nodes, function(node) { return node.Longitude}).Latitude;
+                                min_lat = _.min(filtered_nodes, function(node) { return node.Latitude}).Longitude;
+                                min_lon = _.min(filtered_nodes, function(node) { return node.Longitude}).Longitude;
+
+                                dy = Math.abs(max_lat - min_lat);
+                                dx = Math.abs(max_lon - min_lon);
+
+                                proj_scale = 8000000 * 1/(dx * dy);
+                                if (network_extent == "Global") {
+                                    proj_scale = 125; //manual over-ride for extreme case
+                                }
+
+                                //projection.scale(proj_scale);
+
+                                mean_lat = _.reduce(filtered_nodes, function(memo, num){ return memo + num.Latitude; }, 0)/filtered_nodes.length;
+                                mean_lon = _.reduce(filtered_nodes, function(memo, num){ return memo + num.Longitude; }, 0)/filtered_nodes.length;
+                                if (proj_scale > 250) {
+                                    //only center if zoomed in
+                                    //TODO: work out why clipping
+                                    projection.center([mean_lon, mean_lat]);
+                                    projection.scale(proj_scale);
+                                }
+                                } else {
+                                proj_scale = 125;
+                            }
+
+                            var node_radius = 0.9 * Math.log(proj_scale);
+                            var link_width = 25 * 1/Math.log(proj_scale);
+
+                            link_data = _.map(network.links, function(link) {
+                                source = network.nodes[link.source];
+                                target = network.nodes[link.target];
+                                if (source.Longitude == null || source.Latitude == null
+                                || target.Longitude == null || target.Latitude == null) {
+                                    return [];
+                                }
+                                return [[source.Longitude, source.Latitude], [target.Longitude, target.Latitude]];
+                            });
+
+                            link_data = {"type": "MultiLineString", "coordinates": link_data }
+
+
+                            link_arcs = arcs.selectAll("path")
+                            .data([link_data])
+
+                            //TODO: make these separate so can select/hover independently
+
+                            link_arcs.enter().append("path")
+                            .attr("class", "link")
+                            .style("stroke-width", link_width)
+                            .style("fill", "none")
+                            .style("opacity", 0.4)
+                            .attr("d", path);
+
+                            link_arcs
+                            .transition()
+                            .style("opacity", 1)
+                            .duration(1);
+
+                            link_arcs
+                            .exit().transition()
+                            .duration(1)
+                            .style("opacity",0)
+                            .remove();
+
+                            circles = g.selectAll(".circle")
+                            .data(filtered_nodes, function(d) { return (d.label)})
+
+                            circles.enter().append("svg:circle")
+                            .attr("class", "circle")
+
+                            circles
+                            .attr("cx", function(d) { return projection([d.Longitude, d.Latitude])[0]; })
+                            .attr("cy", function(d) { return projection([d.Longitude, d.Latitude])[1]; })
+                            .attr("r", node_radius) 
+                            .on("mouseover", function(d){
+                                d3.select(this).style("stroke", "orange");
+                                d3.select(this).style("stroke-width", "3");
+                                node_info(d);
+                            })
+                            .on("mouseout", function(){
+                                d3.select(this).style("stroke-width", "0");
+                                clear_label();
+                            })
+
+                            circles.exit().transition()
+                            .duration(5)
+                            .style("opacity",0)
+                            .remove()
+
+                            filtered_nodes = {}
+                            interface_labels = g.selectAll(".interface_label")
+                            .data(filtered_nodes, function(d) { return (d.label)})
+
+                            interface_labels.enter().append("text")
+                            .attr("class", "interface_label")
+                            .attr("text-anchor", "middle") 
+                            .attr("font-family", "helvetica") 
+                            //.attr("font-weight", "bold") 
+                            //.attr("font-size", "small") 
+                            .attr("font-size", 10) 
+
+                            interface_labels 
+                            .attr("x", function(d) {
+                                return projection([d.Longitude, d.Latitude])[0]; })
+                            .attr("y", function(d) { return projection([d.Longitude, d.Latitude])[1]; })
+                            .attr("dx", function(d) { 
+                                return d.Longitude > mean_lon ? 10 : -10 })
+                            .attr("dy", ".75em")
+                            .style("text-anchor", function(d) {
+                                //follow idea of http://bost.ocks.org/mike/map/#displaying-places
+                                // based on whether > mean lon (ie centre) of network
+                                return d.Longitude > mean_lon ? "start" : "end"; })
+                            .text(function(d) { return d.label});
+
+                            interface_labels.exit().transition()
+                            .duration(5)
+                            .style("opacity",0)
+                            .remove()
+
+                            g.selectAll("path")  
+                            .attr("d", path.projection(projection)); 
+
+                        })
+                    }
+
+                    var node_info = function(d) {
+                        text = d.label;
+                        status_label.html(text);
+                    }
+
+                    var link_info = function(d) {
+                    }
+
+                    var clear_label = function() {
+                        status_label.html("");
+                    }
+
+                    var render_map = function() {
+                        //TODO: provide option to switch between 50 and 120 m
+                        //TODO: cache calls to json
+                        d3.json("world-110m.json", function(error, world) {
+
+                            map.insert("path", ".graticule")
+                            .datum(topojson.object(world, world.objects.land))
+                            .attr("class", "land")
+                            .attr("d", path);
+
+                            map.insert("path", ".graticule")
+                            .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
+                            .attr("class", "boundary")
+                            .attr("d", path);
+                        });
+                    }
+
+                    if (network_file != null) {
+                    }
+                    //render_network(network_file);
+                    render_network("Aarnet");
+                    //render_network("Internode.json");
+                    render_map();
+
+                    g.selectAll("path")  
+                    .attr("d", path.projection(projection)); 
+
+                    //d3.select(self.frameElement).style("height", height + "px");
+
+                    // zoom and pan
+                    var zoom = d3.behavior.zoom()
+                    .scaleExtent([0.1, 10])
+                    .on("zoom",function() {
+                        g.attr("transform","translate("+ 
+                        d3.event.translate.join(",")+")scale("+d3.event.scale+")");
+                        g.selectAll("path")  
+                        .attr("d", path.projection(projection)); 
+
+                        log_event_scale = Math.log(d3.event.scale)
+                        log_event_scale = Math.max(log_event_scale, 0.05);
+
+                        var radius = Math.min(Math.max(0.5, 5* 1/log_event_scale), 8);
+                        circles = g.selectAll(".circle")
+                        .attr("r", radius) 
+
+                        var font_size = Math.min(Math.max(4, 8* 1/log_event_scale), 12);
+                        interface_labels = g.selectAll(".interface_label")
+                        .attr("font-size", font_size) 
+
+                        var link_width = Math.min(Math.max(2, 4* 1/log_event_scale), 5);
+                        link_arcs = arcs.selectAll("path")
+                        .style("stroke-width", link_width)
+                        
+                        
+                    });
+
+                    svg.call(zoom)
+
+                </script>
+
+					
+					
+				   				</div>
+			</div>
+		</div>
+		<div id="footer">
+			This project was supported by the Australian Government through an Australian Postgraduate Award and Australian Research Council Discovery Grants DP110103505 and DP0985063; and by the <a href="http://www.adelaide.edu.au">University of Adelaide</a>.
+			<br>
+			Last updated 2010-12-15 by simon.knight at adelaide.edu.au </a>.
+		</div>
+	</body>
+</html>
