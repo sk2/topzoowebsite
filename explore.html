@@ -133,7 +133,18 @@
 
 					<h3> <span class="network_label_span"></h3>  
 
+                        <table>
+                            <tr>
+                                <td>
                 <select id = "network_select"></select>
+            </td>
+            <td>
+            <button onclick="network_select_back();">Back</button>
+            </td>
+            <td>
+            <button onclick="network_select_forward();">Next</button>
+            </td>
+                </tr></table>
                 <br />
 
                 <center>
@@ -345,6 +356,8 @@
                             link_arcs = arcs.selectAll("path")
                             .data([link_data])
 
+                            console.log(link_data);
+
                             //TODO: make these separate so can select/hover independently
 
                             link_arcs.enter().append("path")
@@ -391,18 +404,18 @@
                             .remove()
 
                             filtered_nodes = {}
-                            interface_labels = g.selectAll(".interface_label")
+                            node_labels = g.selectAll(".node_label")
                             .data(filtered_nodes, function(d) { return (d.label)})
 
-                            interface_labels.enter().append("text")
-                            .attr("class", "interface_label")
+                            node_labels.enter().append("text")
+                            .attr("class", "node_label")
                             .attr("text-anchor", "middle") 
                             .attr("font-family", "helvetica") 
                             //.attr("font-weight", "bold") 
                             //.attr("font-size", "small") 
                             .attr("font-size", 10) 
 
-                            interface_labels 
+                            node_labels 
                             .attr("x", function(d) {
                                 return projection([d.Longitude, d.Latitude])[0]; })
                             .attr("y", function(d) { return projection([d.Longitude, d.Latitude])[1]; })
@@ -415,7 +428,7 @@
                                 return d.Longitude > mean_lon ? "start" : "end"; })
                             .text(function(d) { return d.label});
 
-                            interface_labels.exit().transition()
+                            node_labels.exit().transition()
                             .duration(5)
                             .style("opacity",0)
                             .remove()
@@ -490,7 +503,7 @@
                         .attr("r", radius) 
 
                         var font_size = Math.min(Math.max(4, 8* 1/log_event_scale), 12);
-                        interface_labels = g.selectAll(".interface_label")
+                        node_labels = g.selectAll(".node_label")
                         .attr("font-size", font_size) 
 
                         var link_width = Math.min(Math.max(2, 2* 1/log_event_scale), 5);
