@@ -5,9 +5,10 @@
 		<title>
 			The Internet Topology Zoo
 		</title>
-		<link rel="stylesheet" href="blue/style.css" type="text/css" id="" media="print, projection, screen" />   
+        <link rel="stylesheet" type="text/css" href="blue/style.css" title = "default">
+        
+        <link rel="alternate stylesheet" type="text/css" title="maximised" href = "maximised.css">
 		
-		<link href="prettify/prettify.css" type="text/css" rel="stylesheet" />
 		<script type="text/javascript" src="prettify/prettify.js">     
 		</script>
 		
@@ -26,7 +27,7 @@
 		</script>
 		
 
-           <script type="text/javascript" src="underscore-min.js"></script>
+        <script type="text/javascript" src="underscore-min.js"></script>
         <script type="text/javascript" src="jquery-1.7.2.min.js"></script>
         <script type="text/javascript" src="jquery.tipsy.js"></script>
         <script type="text/javascript" src="URI.js"></script>
@@ -124,38 +125,49 @@
 					</ul>
 				</div>
 				<div id="main-content">       
+                    
+                    <div id="description">       
 					<h2>Topology Zoo Explore Visualisation (Beta)</h2>  
 
                                     <h3>About</h3>
                     This visualisation was created using d3.js. It is currently in beta.
                     You can select networks either using the drop-down menu, or by using the left and right arrow keys. You can zoom and pan using your mouse.
                     Hover over a node to see more detailed node information.
+            </div>
 
-					<h3> <span class="network_label_span"></h3>  
-
-                        <table>
-                            <tr>
-                                <td>
-                <select id = "network_select"></select>
-            </td>
-            <td>
-            <button onclick="network_select_back();">Back</button>
-            </td>
-            <td>
-            <button onclick="network_select_forward();">Next</button>
-            </td>
+            <div id = "data_table">
+            <table>
+                <tr>
+                    <td>
+                        <span id="maximise_button"><button onclick="javascript:setActiveStyleSheet('maximised');">Full Screen</button></span>
+                        <span id="resize_button"><button onclick="javascript:setActiveStyleSheet('default');">Resize</button></span>
+                    </td>
+                    <td>
+                        <select id = "network_select"></select>
+                    </td>
+                    <td>
+                        <button onclick="network_select_back();">Back</button>
+                    </td>
+                    <td>
+                        <button onclick="network_select_forward();">Next</button>
+                    </td>
+                    <td>
+                        <h2> <span class="network_label_span"> </h2></td>
+                    <td>
+                </td>
                 </tr></table>
-                <br />
+            </div>
+
 
                 <center>
                     <div class="visualisation"></div>
                 </center>
 
-                <span class="status_label_span">
 
-    
+                <span class="status_label_span"></span>
 
-                <script>
+
+                    <script>
 
                     current_network = [];
                     var network_select = d3.select("#network_select")
@@ -356,8 +368,6 @@
                             link_arcs = arcs.selectAll("path")
                             .data([link_data])
 
-                            console.log(link_data);
-
                             //TODO: make these separate so can select/hover independently
 
                             link_arcs.enter().append("path")
@@ -516,6 +526,22 @@
                     svg.call(zoom)
 
                 </script>
+
+      <script type="text/javascript">
+
+                function setActiveStyleSheet(title) {
+                    //From http://www.alistapart.com/articles/alternate/
+                    var i, a, main;
+                    for(i=0; (a = document.getElementsByTagName("link")[i]); i++) {
+                        if(a.getAttribute("rel").indexOf("style") != -1
+                        && a.getAttribute("title")) {
+                            a.disabled = true;
+                            if(a.getAttribute("title") == title) a.disabled = false;
+                        }
+                    }
+                }
+            </script>
+
             </div>
         </div>
     </div>

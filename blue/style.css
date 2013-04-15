@@ -130,6 +130,7 @@ margin-right: 15px;
 border-bottom: 1px solid #778899;
 color: #2f2f2f;
 max-width: 60%; 
+display:block;
 }
  
  #sidebar {
@@ -138,6 +139,7 @@ float: left;
 padding: 0 0 0 15px;
 border-right: 1px solid #778899;
 line-height: 200%;
+display:block;
 }
  	#sidebar ul {
 list-style: none;
@@ -164,5 +166,15 @@ margin-top: -65px; /* negative value of footer height */
 margin-left: 235px;
 clear: both;
 font-size: x-small;
+display:block;
 }
 
+#maximise_button
+{
+    display: block;
+}
+
+#resize_button
+{
+    display: none;
+}
